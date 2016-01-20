@@ -1,0 +1,51 @@
+mysql:
+    build: ./mysql
+    container_name: mysql_server
+    volumes:
+       - /var/lib/mysql
+    environment:
+        MYSQL_ROOT_PASSWORD: fl4rumR0cks
+        MYSQL_USER: flarum
+        MYSQL_PASSWORD: flarum
+        MYSQL_DATABASE: flarum
+weba:
+    build: ./php
+    container_name: flarum_server_1
+    volumes:
+        - /var/www
+    links:
+        - mysql
+    expose:
+        - 80
+webb:
+    build: ./php
+    container_name: flarum_server_2
+    volumes_from:
+        - weba
+    links:
+        - mysql
+    expose:
+        - 80
+webc:
+    build: ./php
+    container_name: flarum_server_3
+    volumes_from:
+        - weba
+    links:
+    links:
+        - mysql
+    expose:
+        - 80
+haproxy:
+    build: ./haproxy
+    container_name: haproxy
+    links:
+        - weba
+        - webb
+        - webc
+    ports:
+        - 80:80
+        - 1080:1080
+    expose:
+        - 80
+        - 1080
