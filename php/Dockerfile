@@ -17,9 +17,6 @@ RUN git clone https://github.com/zhfnjust/flarum /var/www/html && \
     cd /var/www/html && \
     git submodule update --init --recursive
 RUN composer install --optimize-autoloader --no-dev -vvv
-
-ADD ./extensions /var/www/html/extensions
-
 RUN chown -R www-data:www-data /var/www/html
 RUN  ln -s  /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
 expose 80
