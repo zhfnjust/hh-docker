@@ -1,8 +1,8 @@
 mysql:
     build: ./mysql
     container_name: mysql_server
-#    volumes:
-#       - /var/lib/mysql
+    volumes:
+       - /data/mysql:/var/lib/mysql
     environment:
         MYSQL_ROOT_PASSWORD: fl4rumR0cks
         MYSQL_USER: flarum
@@ -11,6 +11,8 @@ mysql:
 weba:
     build: ./php
     container_name: flarum_server
+    volumes:
+       - /data/flarum:/var/www/html
     links:
         - mysql
     expose:
